@@ -1,14 +1,63 @@
-﻿name: DevSecOps Security Pipeline
+name: DevSecOps Security Pipeline
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ "main", "master" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main", "master" ]
 
 jobs:
-  security-scan:
+  gate-1-bandit:
+    name: "Gate 1: Bandit SAST Scan"
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install Bandit
+        run: pip install bandit
+      - name: Run Bandit
+        run: bandit -r . -l --severity-level high
+
+  gate-2-safety:
+    name: "Gate 2: Safety Dependency Scan"
+    needs: gate-1-bandit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install Safety
+        run: pip install safety
+      - name: Run Safety Check
+        run: safety check -r requirements.txt
+
+  gate-3-gitleaks:
+    name: "Gate 3: Gitleaks Secret Detection"
+    needs: gate-2-safety
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  gate-4-prompt-injection:
+    name: "Gate 4: Custom Prompt Injection Scanner"
+    needs: gate-3-gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Run Custom Scanner
+        run: python inject_scanner.py
