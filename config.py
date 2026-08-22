@@ -1,4 +1,6 @@
 ﻿# Hardcoded API key (deliberate fail)
 # Hardcoded secret pattern for Gitleaks
-OPENAI_API_KEY = "sk-proj-1234567890abcdef1234567890abcdef"
-SECRET_TOKEN = "ghp_abcdefghijklmnopqrstuvwxyz123456"
+import os
+
+# Fetch secret safely from environment variables
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "sk-proj-1234567890abcdef1234567890abcdef")
