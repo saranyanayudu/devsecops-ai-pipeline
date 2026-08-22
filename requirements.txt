@@ -1,0 +1,4 @@
+﻿# Known vulnerable library (CVE-2023-XXXX)
+requests==2.25.1
+flask==1.1.2
+numpy==1.19.5
