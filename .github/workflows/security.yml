@@ -7,7 +7,7 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
- gate-1-bandit:
+  gate-1-bandit:
     name: "Gate 1: Bandit SAST Scan"
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -21,7 +21,7 @@ jobs:
         run: pip install bandit
       - name: Run Bandit
         run: bandit -r . -ll
-        
+
   gate-2-safety:
     name: "Gate 2: Safety Dependency Scan"
     needs: gate-1-bandit
