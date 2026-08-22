@@ -10,7 +10,6 @@ jobs:
   gate-1-bandit:
     name: "Gate 1: Bandit SAST Scan"
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
