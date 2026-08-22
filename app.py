@@ -1,8 +1,8 @@
 import config
 
-# Safe evaluation
+# Safe evaluation / output
 user_input = "2 + 2"
 print("Result:", user_input)
 
-# Clean prompt without prohibited bypass phrases
+# Clean system prompt without forbidden words/injection phrases
 SYSTEM_PROMPT = "You are a helpful virtual assistant."
