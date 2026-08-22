@@ -19,7 +19,7 @@ jobs:
       - name: Install Bandit
         run: pip install bandit
       - name: Run Bandit
-       run: bandit -r . -lll --confidence-level high
+       run: bandit -r . -lll
 
   gate-2-safety:
     name: "Gate 2: Safety Dependency Scan"
