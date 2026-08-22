@@ -1,3 +1,4 @@
 ﻿# Hardcoded API key (deliberate fail)
-API_KEY = "sk-abcdefghijklmnopqrstuvwxyz1234567890"
+# Hardcoded secret pattern for Gitleaks
+OPENAI_API_KEY = "sk-proj-1234567890abcdef1234567890abcdef"
 SECRET_TOKEN = "ghp_abcdefghijklmnopqrstuvwxyz123456"
