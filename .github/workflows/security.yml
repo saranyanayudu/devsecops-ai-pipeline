@@ -7,19 +7,13 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  gate-1-bandit:
-    name: "Gate 1: Bandit SAST Scan"
+  gate-1:
+    name: 'Gate 1: Bandit SAST Scan'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      - name: Install Bandit
-        run: pip install bandit
-      - name: Run Bandit
-        run: bandit -r . --severity-level high
+      - name: Force Gate 1 Fail
+        run: exit 1
 
   gate-2-safety:
     name: "Gate 2: Safety Dependency Scan"
@@ -35,17 +29,13 @@ jobs:
       - name: Run Safety Check
         run: safety check -r requirements.txt
 
-  gate-3-gitleaks:
-    name: "Gate 3: Gitleaks Secret Detection"
+  gate-3:
+    name: 'Gate 3: Gitleaks Secret Detection'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Run Gitleaks
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Force Gate 3 Fail
+        run: exit 1
 
   gate-4-prompt-injection:
     name: "Gate 4: Custom Prompt Injection Scanner"
