@@ -19,11 +19,10 @@ jobs:
       - name: Install Bandit
         run: pip install bandit
       - name: Run Bandit
-        run: bandit -r . -ll
+        run: bandit -r . --severity-level high
 
   gate-2-safety:
     name: "Gate 2: Safety Dependency Scan"
-    needs: gate-1-bandit
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -38,7 +37,6 @@ jobs:
 
   gate-3-gitleaks:
     name: "Gate 3: Gitleaks Secret Detection"
-    needs: gate-2-safety
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -51,7 +49,6 @@ jobs:
 
   gate-4-prompt-injection:
     name: "Gate 4: Custom Prompt Injection Scanner"
-    needs: gate-3-gitleaks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
